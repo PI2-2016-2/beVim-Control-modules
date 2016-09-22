@@ -21,6 +21,6 @@ Inicialmente, há uma lista de comandos especiais que são reservados.
 ###Mensagens Padrao
 Uma vez que um job esteja ativo, o protocolo prevê que cada sensor retorne valores determinados. A organização padrão desses resultados terá o seguinte formato:
 
-|Sensor|Eixo1|Eixo2|Eixo3|Timestamp|
-|:-----:|:----:|:----:|:----:|:------:|
-|S1|0|0|0|100|
+|Sensor|Eixo1|Eixo2|Eixo3|Timestamp|String|
+|:-----:|:----:|:----:|:----:|:------:|:------:|
+|S1|0|0|0|100|S1,0,0,0,100|
