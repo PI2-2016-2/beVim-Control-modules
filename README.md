@@ -1,26 +1,22 @@
 # beVim-Control-modules
 Aplicação baixo nível e módulos de controle do projeto BeVim.
 
-#Protocolo de comunicação
-##Changelog 
-* Pedro Henrique Gonçalves Inazawa - 22/09  - Criação.
+#Introdução
 
-##Protocolo
+O sistema BeVim foi imaginado com o objetivo de controlar a vibração de uma bancada de testes para ensaios vibracionais.
 
-Este tópico descreve como o protocolo funciona e quais as perguntas e respostas que o protocolo espera.
+Dessa forma, três sistemas básicos foram criados: 
 
-###Comandos reservados
-Inicialmente, há uma lista de comandos especiais que são reservados.
+..* [Sistema de Sensoriamento](Modules/MeasureBoard/Documentation/MeasureBoard.md): Responsável pela leitura e disponibilização dos dados tanto para os módulos de maior nível dentro do sistema (as CPUs, que se comunicam via UART) quanto por ser MESTRE da comunicação i2c com os módulos logo abaixo.
 
-|COMANDO|RESULTADO|
-|:------:|:-------:|
-|-1      |Inicia ou finaliza um job. A cada inicio de job, o timer global é resetado.|
-|-2|Contabiliza todos os sensores ativos, e retorna em Mensagem padrão os sensores ativos no sistema.|
+..* [Sistema de Controle de Motores](Modules/ModulesControlBoard/Documentation/ModulesMotorControlBoard.md): é um módulo controlado por i2c, que se une a rede criada pelo módulo de sensoriamento. Este é capaz de vibrar os motores, informando os dados pela rede para o módulo de sensoriamento.
+
+..* [Subsistema de expansão de Sensores](Modules/ExpansionBoard/Documentation/ExpansionBoard.md): É um módulo que permite expandir a quantidade de sensores no sistema (de 8 em 8 sensores).
+
+Para mais detalhes sobre esse sistema, consulte a [Arquitetura do Sistema](Documentation/SystemArchitecture.md)
 
 
-###Mensagens Padrao
-Uma vez que um job esteja ativo, o protocolo prevê que cada sensor retorne valores determinados. A organização padrão desses resultados terá o seguinte formato:
 
-|Sensor|Eixo1[Escala AD]|Eixo2[Escala AD|Eixo3[Escala AD]|Timestamp [MS]|String|
-|:-----:|:----:|:----:|:----:|:------:|:------:|
-|S1|0|0|0|100|S1,0,0,0,100|
+
+
+
