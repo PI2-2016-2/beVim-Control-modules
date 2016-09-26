@@ -13,7 +13,7 @@ Dessa forma, três sistemas básicos foram criados:
 
 * [Subsistema de expansão de Sensores](Modules/ExpansionBoard/Documentation/ExpansionBoard.md): É um módulo que permite expandir a quantidade de sensores no sistema (de 8 em 8 sensores).
 
-Para mais detalhes sobre esse sistema, consulte a [Arquitetura do Sistema](../blob/master/Documentation/SystemArchitecture.md)
+Para mais detalhes sobre esse sistema, consulte a [Arquitetura do Sistema](Simulators/BeVim-Protocol-Simulator/Documentation/SystemArchitecture.md)
 
 
 
