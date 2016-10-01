@@ -33,3 +33,14 @@ void setOutput(int port, int pin, LogicState state);
 LogicState getInput(int port, int pin);
 
 
+/**
+ * @name toggleOutput
+ * */
+void toggleOutput(int port, int pin);
+
+/*
+ * @name: PullInput
+ * */
+
+void pullInput(int port, int pin ,LogicState state);
+

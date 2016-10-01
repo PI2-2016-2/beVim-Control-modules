@@ -21,7 +21,8 @@ CFLAGS = -I $(SUPPORT_FILE_DIRECTORY) -mmcu=$(DEVICE) -O2 -g
 LFLAGS = -L $(SUPPORT_FILE_DIRECTORY) -L $(HEADER_DIR) 
 
 all: Compile_Lib
-	cp ${OBJECTS} ./Libs 
+	cp ${OBJECTS} ./Libs
+	@rm ./*.o	
 	@echo ${OBJECTS}
 	@echo Biblioteca compilada com sucesso!!
 
