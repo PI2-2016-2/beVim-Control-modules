@@ -98,8 +98,11 @@ void loop()
     str+=",";
     str+=String(ts);
     Serial.println(str);
+
+#ifdef __verbose
     Serial.println(f);
-    
+#endif 
+
     a+=PI/2.0;
   
     ts+= 250 * 1.0/f ;  
