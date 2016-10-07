@@ -11,7 +11,7 @@ Inicialmente, há uma lista de comandos especiais que são reservados.
 
 |COMANDO|RESULTADO|
 |:------:|:-------:|
-|-1      |Inicia ou finaliza um job. A cada inicio de job, o timer global é resetado.|
+|-1      |Inicia ou finaliza um perfil(um conjunto de jobs). A cada comando, o timer global é resetado. É importante observar que esse comando inicializa ou fecha a fase de espera por novos jobs|
 |-2|Contabiliza todos os sensores ativos, e retorna em Mensagem padrão os sensores ativos no sistema.|
 
 
@@ -21,3 +21,5 @@ Uma vez que um job esteja ativo, o protocolo prevê que cada sensor retorne valo
 |Sensor|Eixo1[Escala AD]|Eixo2[Escala AD]|Eixo3[Escala AD]|Timestamp [MS]|String|
 |:-----:|:----:|:----:|:----:|:------:|:------:|
 |S1|0|0|0|100|S1,0,0,0,100|
+
+A escala AD varia de um valor de 0 a 1024.

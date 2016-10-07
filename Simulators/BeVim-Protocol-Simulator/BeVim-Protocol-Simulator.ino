@@ -9,6 +9,9 @@
 #include<string.h>
 #include<math.h>
 
+#define __verbose
+#undef __verbose 
+
 String str, inString;
 double a = 0.0;
 double ts= 0;
@@ -17,8 +20,10 @@ int stopExperiment = 1;
 
 void setup() {
   Serial.begin(9600);
+#ifdef __verbose
   Serial.println("O experimento está Parado. Envie -1 para liberar/pausar o experimento");
   Serial.println("Com o experimento liberado, envie uma frequencia positiva para começar a senoide.");
+#endif 
 }
 
 void loop()
@@ -34,10 +39,15 @@ void loop()
     if(inChar =='\n'){
       
       f = (double)inString.toInt();
+      
+#ifdef __verbose
       Serial.println(inString);
+#endif 
+
       inString="";
       break;
       }
+
     
   }
 
@@ -48,11 +58,16 @@ void loop()
 
     if(stopExperiment == 0){
       stopExperiment =1;
-      //Serial.println("Experimento Parado. Envie -1 para Iniciar");
+#ifdef __verbose
+      Serial.println("Experimento Parado. Envie -1 para Iniciar");
+#endif
       }
     else{
       stopExperiment =0;
-      //Serial.println("Experimento Liberado.Envie uma frequencia Positiva, e ela irá mudar.");
+#ifdef __verbose
+      Serial.println("Experimento Liberado.Envie uma frequencia Positiva, e ela irá mudar.");
+#endif
+
       }
       
     
@@ -61,10 +76,17 @@ void loop()
   if(f < -1.1 && f > -2.1){
       
     Serial.println("S1,0,0,0,0");
+    Serial.println("S2,0,0,0,0");
+    Serial.println("S3,0,0,0,0");
+    Serial.println("S6,0,0,0,0");
+    Serial.println("S7,0,0,0,0");
   }
 
   if((stopExperiment==0) && f > 0.0){
-//     Serial.println("Experimento OK!");
+#ifdef __verbose
+     Serial.println("Experimento OK!");
+#endif
+
      str="";
 
     str+="S1,";
