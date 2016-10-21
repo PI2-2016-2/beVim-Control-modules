@@ -33,8 +33,10 @@ void beVim_Mclk_Source(ClockSources source, int divider){
 			case 8:
 				BCSCTL2 |=  DIVM_3;
 				break;
-			default:
 			case 1:
+				BCSCTL2 |=  DIVM_0;
+				break;
+			default:
 				BCSCTL2 |=  DIVM_0;
 				break;
 
