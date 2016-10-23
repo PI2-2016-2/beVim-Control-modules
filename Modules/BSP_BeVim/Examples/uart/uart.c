@@ -14,7 +14,7 @@ char charIsCorrect = 0;
 void main(void){
 
 	WDTCTL = WDTPW + WDTHOLD;
-
+git 
 	setDirection(1,0,output);
 	setOutput(1,0,high);
 	setDirection(1,1,output);
