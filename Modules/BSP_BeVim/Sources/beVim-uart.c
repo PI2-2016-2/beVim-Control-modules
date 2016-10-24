@@ -259,12 +259,23 @@ void beVim_UART_begin(UartSpeed speed){
  * putc - Função responsavel pela impressao de um char no console serial.*/
 int beVim_putc(char c){
 
-	UCA0TXBUF = c;
 	while(!(IFG2 & UCA0TXIFG));
+	UCA0TXBUF = c;
+
 
 	return c;
 
 }
+
+/*	getc - Responsavel pela captura de um caracter.
+ *	Atençao - Nao utilizar em conjunto com interrupçoes de rx
+ * */
+char beVim_getc(){
+	while(!(IFG2 & UCA0RXIFG));
+	char c = UCA0RXBUF;	
+	return c;
+}
+
 
 int beVim_print(char *c){
 	
@@ -292,11 +303,56 @@ int beVim_println(char *c){
 		i++;
 	}
 //
-//		beVim_putc('\n');
-//		beVim_putc('\r');
+		beVim_putc('\n');
+		beVim_putc('\r');
 	
 	return i+2;
 } 
 
+char * beVim_gets(){
+
+	char rxChar;
+	char *rxString;
+	
+	char ovf = 0, endDetected =0;
+	int charCounter = 0;
+	
+	//aqui se soma 1 ao MAX_RX_CHAR pois deve-se ter o tamanho oficial da 
+	//biblioteca + o espaço de um \0.
+	rxString = (char*)malloc((MAX_RX_CHAR+1)*sizeof(char));
+
+	while (!(ovf || endDetected)){
+		rxChar = beVim_getc();
+		beVim_putc(rxChar);
+
+		charCounter++;
+
+		if(charCounter == MAX_RX_CHAR)
+			ovf = 1;
+
+		else if (rxChar == STRING_DELIMITER)
+			endDetected = 1;
 		
+		else{
+			rxString[charCounter -1] = rxChar;
+		}
+		
+	}
+
+	if(ovf){
+		//Encerra a string com caracter finalizador no último espaço.
+		//Lembrando: A função foi mallocada com MAX_RX_CHAR+1, isto é
+		//Pode assumir até MAX_RX_CHAR caracteres sem SIGSEGV
+		rxString[MAX_RX_CHAR] = '\0';
+	}
+	else if (endDetected){
+		//Encerra a string com um caracter finalizador
+		//no primeiro espaço vago da string. No caso,
+		rxString[charCounter] = '\0';
+	}
+
+
+	return rxString;
+	
+}
 

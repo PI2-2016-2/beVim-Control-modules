@@ -7,6 +7,12 @@
 */
 
 #include <msp430.h>
+#include <stdlib.h>
+//Quantidade maxima de caracteres que pode ser recebida
+#define MAX_RX_CHAR 50
+
+//Delimitador de strings a serem recebidas.
+#define STRING_DELIMITER '\n'
 
 #ifdef __MSP430F2274
 /*
@@ -34,21 +40,38 @@ typedef enum uartspeed{
 void beVim_UART_begin(UartSpeed speed);
 
 /*
- * @name: UART putch
+ * @name: UART putch (VERSAO BLOCANTE)
  * @brief : Envia apenas um char para o buffer de transmissão do MSP430. 
  * @param c: byte a ser enviado.
  */
 int beVim_putc( char c);
 
-/*@name: UART print
+/*@name: UART print (VERSAO BLOCANTE)
  * @brief: Função responsavel por imprimir na serial uma string completa. 
  * @param c: Endereço do primeiro item da string.
  * */
 int beVim_print(char *c);
 
-/*@name: UART println
+/*@name: UART println (VERSAO BLOCANTE)
  * @brief: Função responsavel por imprimir na serial uma string completa. Esta função acrescenta um \n\r ao final da string.
  * @param c: Endereço do primeiro item da string.
  * */
 int beVim_println(char *c);
 
+/* @name: UART getchar (VERSAO BLOCANTE)
+ *
+ * @brief: Função responsável pela captura de um dado da porta serial. Esta função
+ * aguarda o dado estar disponível e depois retorna o caracter obtido
+ *
+ * @return: Caracter Recebido
+ *
+ * */
+char beVim_getc();
+
+/**
+ * @name: UART gets()  (VERSAO BLOCANTE)
+ * @brief: Captura uma string de tamanho maximo MAX_RX_CHAR da UART.
+ * @return: Ponteiro para a string capturada. 
+ */
+
+char *beVim_gets();

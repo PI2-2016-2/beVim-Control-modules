@@ -6,7 +6,7 @@ SOURCE_DIR = /home/inazawa/Documents/pi2/beVim-Control-modules/Modules/BSP_BeVim
 
 HEADER_DIR = /home/inazawa/Documents/pi2/beVim-Control-modules/Modules/BSP_BeVim/Includes
 
-DEVICE  = msp430g2452
+DEVICE  = msp430f2274
 CC      = $(GCC_DIR)/msp430-elf-gcc
 GDB     = $(GCC_DIR)/msp430-elf-gdb
 
@@ -17,7 +17,7 @@ OBJECTS= ${MODULES_TO_BE_COMPILED:.c=.o}
 #A diretiva -I inclui locais onde procurar os headers do projeto de forma mais crítica.
 #a diretiva -L inclui de maneira mais aberta esse dado.
 
-CFLAGS = -I $(SUPPORT_FILE_DIRECTORY) -mmcu=$(DEVICE) -O2 -g
+CFLAGS = -I $(SUPPORT_FILE_DIRECTORY) -mmcu=$(DEVICE) -Wall -O0 -g3 -gdwarf-2 -ggdb
 LFLAGS = -L $(SUPPORT_FILE_DIRECTORY) -L $(HEADER_DIR) 
 
 all: Compile_Lib
@@ -34,4 +34,5 @@ debug: all
 	$(GDB) $(DEVICE).out
 clean:
 	@rm ./Libs/*.o
-	
+	@rm ./Sources/*.o
+	@echo All Cleaned Up. 	
