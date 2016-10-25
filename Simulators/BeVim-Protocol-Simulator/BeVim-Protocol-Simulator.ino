@@ -17,7 +17,6 @@ double a = 0.0;
 double ts= 0;
 double f=0.0;
 int stopExperiment = 1;
-int stopSendSensors = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -84,9 +83,8 @@ void loop()
   }
 
   if(f < -1.1 && f > -2.1) {
-    if(stopSendSensors == 0)
-      send_sensors();
-      stopSendSensors = 1;
+    send_sensors();
+    f = -1;
   }
 
   if((stopExperiment==0) && f > 0.0){
