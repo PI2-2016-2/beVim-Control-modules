@@ -32,7 +32,8 @@ Compile_Lib: ${OBJECTS}
 
 debug: all
 	$(GDB) $(DEVICE).out
+
 clean:
-	@rm ./Libs/*.o
-	@rm ./Sources/*.o
+	-@rm ./Libs/*.o
+	-@rm ./Sources/*.o
 	@echo All Cleaned Up. 	
