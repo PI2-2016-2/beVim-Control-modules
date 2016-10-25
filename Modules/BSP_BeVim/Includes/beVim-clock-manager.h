@@ -23,6 +23,11 @@ typedef enum cs{
 
 }ClockSources;
 
+typedef enum ct{
+	MCLK = 0,
+	SMCLK = 1,
+	ACLK = 2
+}ClockType;
 
 typedef enum cspeed{
 
@@ -32,6 +37,7 @@ typedef enum cspeed{
 	_16MHZ    = 16
 
 }ClockSpeed;
+
 #endif
 
 /**

@@ -5,7 +5,7 @@ MY_PROJECT_C_FILES = $(wildcard ./*.c)
 OBJECTS = ${MY_PROJECT_C_FILES:.c=.o}
 
 
-DEVICE  = msp430g2452
+DEVICE  = msp430f2274
 CC      = $(GCC_DIR)/msp430-elf-gcc
 GDB     = $(GCC_DIR)/msp430-elf-gdb
 

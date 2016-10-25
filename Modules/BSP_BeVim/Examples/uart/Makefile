@@ -9,7 +9,7 @@ DEVICE  = msp430f2274
 CC      = $(GCC_DIR)/msp430-elf-gcc
 GDB     = $(GCC_DIR)/msp430-elf-gdb
 
-CFLAGS = -I $(SUPPORT_FILE_DIRECTORY) -mmcu=$(DEVICE) -O2 -g
+CFLAGS = -I $(SUPPORT_FILE_DIRECTORY) -mmcu=$(DEVICE) -O0 -g3 -gdwarf-2 -ggdb
 LFLAGS = -L $(SUPPORT_FILE_DIRECTORY)
 
 all: Compile_App
@@ -17,6 +17,9 @@ all: Compile_App
 	cp -R ../../Libs ./Libs
 	cp ${OBJECTS} ./Libs/
 	$(CC) $(CFLAGS) $(LFLAGS) -o CompiledApp.out ./Libs/*.o 
+
+install: 
+	mspdebug rf2500 "read prog_script"
 
 Compile_App:${OBJECTS}
 	@echo COMPILANDO O APLICATIVO...... 

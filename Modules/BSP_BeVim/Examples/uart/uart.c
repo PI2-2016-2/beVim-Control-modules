@@ -4,87 +4,101 @@
  * Implements UART in bevim.
  * */
 
-#include"msp430.h"
+#include "msp430.h"
 #include "../../Includes/beVim-clock-manager.h"
+#include "../../Includes/beVim-uart.h"
+#include "../../Includes/beVim-gpios.h"
 
-#define TXLED BIT0
-#define RXLED BIT6
-#define TXD BIT2
-#define RXD BIT1
+//Descomente a linha a seguir para entrar em modo de interrupção
+//#define INTERRUPT_MODE
 
-char msg[] = "Good Vibes\n";
-unsigned int i;
+volatile char charIsCorrect = 0;
 
+//Se for pela interrupção, o rxString é preenchido pela lib
+//Senao, deve ser preenchido pelas interrupooes do usuario.
+#ifndef INTERRUPT_MODE
+	char *rxString;
+#else
+	volatile char charCounter = 0;
+	volatile char EOL = 0;
+	char rxChar;
+	char rxString[MAX_RX_CHAR];
+#endif
 
-void main(void){
+int main(void){
 
-	int i = 0;
 	WDTCTL = WDTPW + WDTHOLD;
 	
-	P1DIR = 0xFF; //All P1.x outputs
-	P1OUT = 0;   // All P1.X reset
-
-
-	P2DIR = 0xFF;  //All p2.x outputs
-	P2OUT = 0; // All P2.x reset
+       //Inicializa os LEDs para o envio / recepçao de dados.	
+	setDirection(1,0,output);
+	setOutput(1,0,high);
+	setDirection(1,1,output);
+	setOutput(1,1,high);
 	
-	P3SEL = 0x30; // P3.4,5= USCI_A0 TXD/RXD
-	P3DIR = 0xFF; // All P3.x outputs
-	
-	P3OUT = 0;  //All P3.x reset
-	P4DIR = 0xFF; // All P4.x Outputs
-	
-	P4OUT  = 0;
-	
-	//CONFIGURANDO O CLOCK
-//	BCSCTL1 = CALBC1_1MHZ;
-//	DCOCTL = CALDCO_1MHZ;
-
+	//Inicializa o clock para MCLK e SMCLK e DCO
 	beVim_Clock_Config(DCOCLK, _1MHZ);
 	beVim_Mclk_Source(DCOCLK, 1);
 	beVim_SMclk_Source(DCOCLK,1);
-
-	UCA0CTL1 |= UCSWRST;
-	UCA0CTL1 |= UCSSEL_2; //clk = SMCLK
 	
-	UCA0BR0 = 104; // tabela da pagina 424 do MSP430x2xx User's guide.
-	UCA0BR1 = 0x00;
-
-	UCA0MCTL = UCBRF_1 + UCBRS_0; //Modulation ucbrsx = 3;
-
-	UCA0CTL1 &= ~UCSWRST; //Initialize USCI state machine
-
+	//Inicializa USCIA0 em modo UART
+	beVim_UART_begin(_9600);
+	
+	#ifdef INTERRUPT_MODE
 	IE2 |= UCA0RXIE;
+	#endif
 
-	__bis_SR_register(LPM3_bits+GIE); // Enter LPM3 w/ int until Byte RXed
+	beVim_println("Enviar uma string terminada com '\n' para o terminal. de ate 50 chars.");
+	
+	__bis_SR_register(GIE); // Enter LPM3 w/ int until Byte RXed
+	
 	while(1){
-	//	i = 0;
-	//	UCA0TXBUF = 'a';
-	//	for(i = 0; i<0x600;i++);
+		
+	//	if(charIsCorrect){
+		
+#ifndef INTERRUPT_MODE
+		charIsCorrect = 0;
+		rxString = beVim_gets();
+		beVim_println(rxString);
+		toggleOutput(1,0);
+		free(rxString);	
+		
+#else
+		if(EOL){
+			EOL = 0;
+			beVim_println(rxString);
+			toggleOutput(1,0);
+		}
+#endif
+				
 	}	
 		
 }
-
-//#pragma vector=USCIAB0RX_VECTOR
-//__interrupt void USCI0RX_ISR(void){
+#ifdef INTERRUPT_MODE
 void __interrupt(USCIAB0RX_VECTOR) rx_ISR(void){
 	
-	if(UCA0RXBUF == 'a'){
-		i = 0;
-		UC0IE |= UCA0TXIE;
-		UCA0TXBUF = msg[i++];
-	}
+	charCounter++;
+	rxChar = UCA0RXBUF;
+	
+	if(charCounter < MAX_RX_CHAR){
+		if( rxChar == '\n'){
+			rxString[charCounter-1] = '\0';
 
+			EOL = 1;
+			charCounter = 0;	
+		}
+		else{
+			rxString[charCounter-1] = rxChar;
+		}
+	}
+	else{
+		rxString[MAX_RX_CHAR -1] = '\0';
+		EOL = 1;
+		charCounter = 0;
+	}
 }
 
-//#pragma vector=USCIAB0TX_VECTOR
-//__interrupt void USCI0TX_ISR(void){
 void __interrupt(USCIAB0TX_VECTOR) tx_ISR(void){
 	
-	UCA0TXBUF = msg[i++]; //tx next character
-	if (i == sizeof(msg) -1)
-		UC0IE &= ~UCA0TXIE;
-	
-	P1OUT |= BIT0;
 
 }
+#endif

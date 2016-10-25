@@ -1,0 +1,4 @@
+erase
+prog CompiledApp.out
+run
+
