@@ -1,0 +1,94 @@
+\subsection{Detecção de Módulos Adicionais}
+
+Um fator importante no sistema é a escalabilidade do mesmo, para que seja resiliente a má operação do usuário e a falhas, se torna necessário a detecção automática de módulos adicionais de sensores. Para a implementação desse mecanismo, sera usado o principio simples do divisor de tensão. Cada modulo possuirá uma resistência de valor igual ao de uma resistência de referencia pre-determinada $R_{ref1}$. O circuito da figura \ref{circ-exp} sera usado para essa função:
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[scale=0.1]{exp-board-detection.png}
+	\caption{Circuito de Expansão}
+	\label{circ-exp}
+\end{figure}
+
+Os módulos de expansão (representados pelas resistências de $R_{1}$ a $R_{8}$ serão conectados em paralelo e assim a resistência da combinação dos mesmo sera cada vez menor, e consequentemente maior sera a tensão de entrada no amplificador operacional. Essas resistências dos módulos devem ser sempre de valor o mais próximo possível de $R_{ref1}$ para garantir o funcionamento. O amplificador esta na configuração não inversora, e possui ganho representado na equação \ref{ganho-simples}:
+
+\begin{equation}\label{ganho-simples}
+A=\frac{ R_{a} }{ R_{b} } + 1
+\end{equation}
+
+A resistência equivalente da combinação dos módulos com a resistência de referencia é dado pela equação \ref{resEq}:
+
+\begin{equation}\label{resEq}
+ResEq = \left( \frac{ N_{sensores} + 1 }{ R_{ref1} } \right)^{-1}  = \frac{ R_{ref1} }{ N_{sensores} + 1 } 
+\end{equation}
+
+Consequentemente a tensão de saída sera dada por:
+
+\begin{equation}\label{resEq}
+V_{out} = \frac{R_{ref1}}{\frac{ R_{ref2} }{ N_{sensores} + 1 } + R_{ref2}} \cdot V_{ref} \left( \frac{ R_{a} }{ R_{b} } + 1\right)
+\end{equation}
+
+Manipulando a equação \ref{resEq} podemos determinar $N_{sensores}$ a partir dos outros parâmetros:
+
+\begin{equation}\label{Nsen1}
+N_{sensores} = \left[ \left( \frac{R_{ref1}}{R_{ref2}} \right) \cdot \left( \frac{V_{out}}{V_{ref} \left( \frac{ R_{a} }{ R_{b} } + 1\right) - V_{out}} \right) \right] - 1
+\end{equation}
+
+A equação \ref{Nsen1} fornece valores aproximados para a quantidade de sensores, para tornar esse valor valor mais preciso foram adicionados dois componentes na mesma: FatorAjuste (aplica um ganho em porcentagem na equação \ref{Nsen1} para compensar a imprecisão dos valores das resistências) e \textit{\% 1}(realiza a operação de quociente por 1, isto é, elimina a parte decimal para obter o valor exato do numero de módulos de expansão)
+
+\begin{equation}\label{Nsen2}
+N_{sensores} = 
+\left(
+	\left\lbrace
+		\left[ 
+			\left( \frac{ R_{ref1} }{ R_{ref2} } \right)
+			\cdot 
+			\left( \frac{V_{out}}{ V_{ref} \left( 
+				\frac{ R_{a} }{ R_{b} } + 1
+			\right)
+			 - V_{out}} \right)
+		\right] - 1 
+	\right\rbrace \cdot \left( 1 + FatorAjuste \right) 
+\right) \% 1
+\end{equation}
+
+Foram determinados os seguintes valores para os componente e parâmetros:
+\begin{itemize}
+	\item $R_{ref1} = 10k\Omega$
+	\item $R_{ref2} = 2k\Omega$
+	\item $R_{a} = 100k\Omega$
+	\item $R_{b} = 200k\Omega$
+	\item $V_{ref}$ = 3.3V
+\end{itemize}
+
+A equação \ref{Nsen2} pode ser reescrita substituindo pelos valores definidos da seguinte forma:
+
+\begin{equation}\label{Nsen3}
+N_{sensores} = 
+\left(
+	\left\lbrace
+			\frac{ 6 \cdot V_{out} - 4.95 }{4.95 
+			 - V_{out}} 
+	\right\rbrace \cdot \left( 1 + FatorAjuste \right) 
+\right) \% 1
+\end{equation}
+
+O circuito da figura \ref{circ-exp} foi simulado usado o software QUCS (Quite Universal Circuit Simulator) e usando a equação \ref{Nsen3} com um fator de ajuste de 1$\%$ foram obtidos os seguintes resultados na tabela \ref{result-nsen3}.
+
+\begin{table}[]
+\centering
+\caption{Resultados Experimentais}
+\label{result-nsen3}
+\begin{tabular}{|l|l|l|l|}
+\hline
+Módulos Conectados & $V_{out} (V)$ & $N_{modulos}$ & $N_{modulos}  \%  1$ \\ \hline
+0 & 0.83 & -0.0004 & 0 \\ \hline
+1 & 1.43 & 1.0128 & 1 \\ \hline
+2 & 1.87 & 2.0070 & 2 \\ \hline
+3 & 2.22 & 3.0023 & 3 \\ \hline
+4 & 2.50 & 4.0400 & 4 \\ \hline
+5 & 2.73 & 5.0633 & 5 \\ \hline
+6 & 2.92 & 6.0794 & 6 \\ \hline
+7 & 3.08 & 7.0910 & 7 \\ \hline
+8 & 3.21 & 8.0461 & 8 \\ \hline
+\end{tabular}
+\end{table}
