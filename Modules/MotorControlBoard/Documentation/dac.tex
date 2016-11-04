@@ -1,70 +1,64 @@
-
-\subsection{Conversor Digital para AnalÛgico}
-
-\subsubsection{Introducao}
-
-O inversor de frequÍncia escolhido para o projeto pode ser controlado usando uma referÍncia analÛgica de tens„o ou de corrente para aferir a velocidade do motor a ser controlado. Foi definido que ser· usada a referencia analÛgica de tens„o pois a mesma e controlada por uma tens„o que varia de 0 a 10V enquanto a referencia por corrente se da dentro de um intervalo de 4 a 20mA, o circuito de condicionamento de sinais para o intervalo de tens„o acima e mais simples e robusto do que o de corrente baseado no microprocessador escolhido (MSP430). O microcontrolador n„o possui uma saÌda de tens„o analÛgica porÈm possui saÌdas capazes de serem utilizadas com PWM (Pulse Width Modulation), usando um simples circuito de convers„o de sinais se torna possÌvel converter uma saÌda de tens„o digital de PWM que varia de 0 a 3.3V (tens„o m·xima e mÌnima de saÌda do MSP430) em uma saÌda de tens„o analÛgica de 0 a 10V.
-
+\subsection{Conversor Digital para Anal√≥gico}
+\subsubsection{Introdu√ß√£o}
+O inversor de frequ√™ncia escolhido para o projeto pode ser controlado usando uma refer√™ncia anal√≥gica de tens√£o ou de corrente para aferir a velocidade do motor a ser controlado. Foi definido que ser√° usada a referencia anal√≥gica de tens√£o pois a mesma e controlada por uma tens√£o que varia de 0 a 10V enquanto a referencia por corrente se da dentro de um intervalo de 4 a 20mA, o circuito de condicionamento de sinais para o intervalo de tens√£o acima e mais simples e robusto do que o de corrente baseado no microprocessador escolhido (MSP430). O microcontrolador n√£o possui uma sa√≠da de tens√£o anal√≥gica por√©m possui sa√≠das capazes de serem utilizadas com PWM (Pulse Width Modulation), usando um simples circuito de convers√£o de sinais se torna poss√≠vel converter uma sa√≠da de tens√£o digital de PWM que varia de 0 a 3.3V (tens√£o m√°xima e m√≠nima de sa√≠da do MSP430) em uma sa√≠da de tens√£o anal√≥gica de 0 a 10V.
 \subsubsection{PWM}
-
-Um sinal PWM È formado por uma sÈrie de pulsos de amplitude e frequÍncia fixas porÈm com largura dos pulsos vari·vel. Assim como È possÌvel transmitir um sinal analÛgico por primeiramente modulando o sinal em uma onda portadora e depois removendo a portadora e ficando apenas com o sinal, tambÈm È possÌvel transmitir uma tens„o analÛgica modulada em uma portadora digital. Essa tens„o analÛgica pode ser facilmente extraÌda do sinal modulado um usando um filtro passa-baixas.
-
+Um sinal PWM √© formado por uma s√©rie de pulsos de amplitude e frequ√™ncia fixas por√©m com largura dos pulsos vari√°vel. Assim como √© poss√≠vel transmitir um sinal anal√≥gico por primeiramente modulando o sinal em uma onda portadora e depois removendo a portadora e ficando apenas com o sinal, tamb√©m √© poss√≠vel transmitir uma tens√£o anal√≥gica modulada em uma portadora digital. Essa tens√£o anal√≥gica pode ser facilmente extra√≠da do sinal modulado um usando um filtro passa-baixas.
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[scale=0.3]{duty_cycle.jpg}
+	\includegraphics[scale=0.3]{duty_cycle.jpg}
 	\caption{Duty Cycle}
 	\label{duty_cycle}
 \end{figure}
-
-
-Em PWM, o tempo em que o sinal fica em nÌvel lÛgico alto ou baixo n„o costuma ser muito usado, o mais comum È classificar o sinal de acordo com seu duty-cycle. A relaÁ„o entre duty-cycle, amplitude e tens„o nominal de saÌda do DAC se torna bem intuitiva. No domÌnio da frequÍncia, um filtro passa-baixas suprime componentes de alta frequÍncia, consequentemente no domÌnio do tempo isso acaba "amaciando" o sinal e de certa forma tirando uma media do sinal. Filtrar um sinal PWM com um filtro passa-baixas extrai seu valor mÈdio de tens„o. Se por exemplo o duty-cyle de um sinal for 50% com m·ximo e mÌnimo respectivamente em 5 e 0V, apÛs o sinal ser passado pelo filtro o sinal de saÌda ira possuir uma saÌda de 2.5V.
+Em PWM, o tempo em que o sinal fica em n√≠vel l√≥gico alto ou baixo n√£o costuma ser muito usado, o mais comum √© classificar o sinal de acordo com seu duty-cycle. A rela√ß√£o entre duty-cycle, amplitude e tens√£o nominal de sa√≠da do DAC se torna bem intuitiva. No dom√≠nio da frequ√™ncia, um filtro passa-baixas suprime componentes de alta frequ√™ncia, consequentemente no dom√≠nio do tempo isso acaba "amaciando" o sinal e de certa forma tirando uma media do sinal. Filtrar um sinal PWM com um filtro passa-baixas extrai seu valor m√©dio de tens√£o. Se por exemplo o duty-cyle de um sinal for 50\% com m√°ximo e m√≠nimo respectivamente em 5 e 0V, ap√≥s o sinal ser passado pelo filtro o sinal de sa√≠da ira possuir uma sa√≠da de 2.5V.
 
 \begin{equation}\label{calc-duty-cycle}
-D=\frac{ PW }{ T } \cdot 100 \%
+	D=\frac{ PW }{ T } \cdot 100 \%
 \end{equation}
 
-Na EquaÁ„o \ref{calc-duty-cycle}, D È o valor do duty cyle em percentagem, PW a largura do pulso e T o perÌodo total do sinal.
+Na Equa√ß√£o \ref{calc-duty-cycle}, D √© o valor do duty cyle em percentagem, PW a largura do pulso e T o per√≠odo total do sinal.
 
 \begin{equation}\label{calc-analog-voltage}
-V_{out}=\frac{ Pw }{ T } \cdot V_{max}
+	V_{out}=\frac{ Pw }{ T } \cdot V_{max}
 \end{equation}
 
-A EquaÁ„o \ref{calc-analog-voltage} c·lcula a tens„o de saÌda aproximada do sinal apÛs o filtro passa-baixas. Na mesma $V_{out}$ È a tens„o de saÌda, PW a largura do pulso e T o perÌodo total do sinal e $V_{max}$ È a tens„o do sinal PWM quando em nÌvel lÛgico alto.
-
+A Equa√ß√£o \ref{calc-analog-voltage} calcula a tens√£o de sa√≠da aproximada do sinal ap√≥s o filtro passa-baixas. Na mesma $V_{out}$ √© a tens√£o de sa√≠da, PW a largura do pulso e T o per√≠odo total do sinal e $V_{max}$ √© a tens√£o do sinal PWM quando em n√≠vel l√≥gico alto.
 
 \subsubsection{Filtro passa-baixas}
 
-Existem duas condiÁıes a serem consideradas no projeto do filtro passa-baixas: O tempo de estabilizaÁ„o e o ripple. Tempo de estabilizaÁ„o È o tempo que o sinal leva para chegar ao nÌvel analÛgico desejado, j· o ripple È o ruÌdo resÌdual da filtragem do sinal do saÌda. Uma frequÍncia de corte baixa gera um sinal com pouco ripple porÈm aumenta o tempo de estabilizaÁ„o, consequemente uma frequencia de corte mais alta produz um ripple muito grande e um tempo de estabilizaÁ„o curto. O que deve ser feito È escolher uma frequÍncia de corte que gera um ripple menor que a resoluÁ„o da entrada analÛgica do inversor de frequÍncia (vale lembrar que resoluÁ„o È a menor variaÁ„o de tens„o que o dispositivo pode ler). \\
-As especificaÁıes para projeto do filtro conversor s„o:
+Existem duas condi√ß√µes a serem consideradas no projeto do filtro passa-baixas: O tempo de estabiliza√ß√£o e o ripple. Tempo de estabiliza√ß√£o √© o tempo que o sinal leva para chegar ao n√≠vel anal√≥gico desejado, j√° o ripple √© o ru√≠do residual da filtragem do sinal do sa√≠da. Uma frequ√™ncia de corte baixa gera um sinal com pouco ripple por√©m aumenta o tempo de estabiliza√ß√£o, consequentemente uma frequ√™ncia de corte mais alta produz um ripple muito grande e um tempo de estabiliza√ß√£o curto. O que deve ser feito √© escolher uma frequ√™ncia de corte que gera um ripple menor que a resolu√ß√£o da entrada anal√≥gica do inversor de frequ√™ncia (vale lembrar que resolu√ß√£o √© a menor varia√ß√£o de tens√£o que o dispositivo pode ler). \\
+
+As especifica√ß√µes para projeto do filtro conversor s√£o:
+
 \begin{itemize}
-	\item FrequÍncia PWM de entrada = 100KHz
-	\item ResoluÁ„o da entrada do inversor (ripple m·ximo) = 9.76mV
-	\item Tempo de estabilizaÁ„o = 0.1s
-	\item Ganho de Tens„o = 3 
+	\item Frequ√™ncia PWM de entrada = 100KHz
+	\item Resolu√ß√£o da entrada do inversor (ripple m√°ximo) = 9.76mV
+	\item Tempo de estabiliza√ß√£o = 0.1s
+	\item Ganho de Tens√£o = 3 
 \end{itemize}
 
-O circuito a ser usado ser· o da Figura \ref{active-lpf}:
+O circuito a ser usado ser√° o da Figura \ref{active-lpf}:
 
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[scale=0.3]{lpf.jpg}
+	\includegraphics[scale=0.3]{lpf.jpg}
 	\caption{Filtro passa-baixas ativo}
 	\label{active-lpf}
 \end{figure}
 
-A frequÍncia de corte para o filtro È dada pela EquaÁ„o \ref{cuttof-frequency}
+A frequ√™ncia de corte para o filtro √© dada pela Equa√ß√£o \ref{cuttof-frequency}
 
 \begin{equation}\label{cutoff-frequency}
-f_{c}=\frac{ 1 }{ 2 \Pi \cdot R_{1}\cdot C } \cdot V_{max}
+	f_{c}=\frac{ 1 }{ 2 \Pi \cdot R_{1}\cdot C } \cdot V_{max}
 \end{equation}
 
-Os resistores $R_{2}$ e $R_{3}$ controlam o ganho do filtro que È dado pela EquaÁ„o \ref{ganho_alpf}
+Os resistores $R_{2}$ e $R_{3}$ controlam o ganho do filtro que √© dado pela Equa√ß√£o \ref{ganho_alpf}
 
 \begin{equation}\label{calc-analog-voltage}
-G= 1 + \frac{ R_{3} }{ R_{2} }
+	G= 1 + \frac{ R_{3} }{ R_{2} }
 \end{equation}
 
-Foram usados os sequintes componentes para o circuito:
+Foram usados os seguintes componentes para o circuito:
+
 \begin{itemize}
 	\item $R_{1}=10k\Omega$
 	\item $R_{2}=100k\Omega$
@@ -72,11 +66,11 @@ Foram usados os sequintes componentes para o circuito:
 	\item C=1uF
 \end{itemize}
 
-Esse circuito gera uma frequÍncia de corte de aproximadamente 16Hz, um ripple de 2.4mV, um tempo de estabilizaÁ„o de 0.02s e um ganho de tens„o igual a 3. Dessa forma atende todas os requisitos de funcionamento. A Figura \ref{filter_out} mostra a saÌda sem ripple.
+Esse circuito gera uma frequ√™ncia de corte de aproximadamente 16Hz, um ripple de 2.4mV, um tempo de estabiliza√ß√£o de 0.02s e um ganho de tens√£o igual a 3. Dessa forma atende todas os requisitos de funcionamento. A Figura \ref{filter_out} mostra a sa√≠da sem ripple.
 
 \begin{figure}[htbp]
 	\centering
-		\includegraphics[scale=0.3]{ripple-lpf.jpg}
-	\caption{Gr·fico Tens„oxTempo filtro passa baixas}
+	\includegraphics[scale=0.3]{ripple-lpf.jpg}
+	\caption{Gr√°fico Tens√£oxTempo filtro passa baixas}
 	\label{filter_out}
 \end{figure}
