@@ -25,12 +25,12 @@ Foram definidos uma lista de inputs especiais de modo que torne facilitado o env
 ###OUTPUT de Dados:
 
 Nesta seção irá formaliza o formato padrão de saída de dados bem como alguns significados pré-definidos para otimização da consulta de dados pela porta serial.
-* **Formato**
-** __[HEADER]__ + __[DADO]__
+
+* **Formato =  __[HEADER]__ + __[DADO]__**
 
 | Dados Esperados | Formato Utilizado | Formato em Bytes |
 |:--------:|:--------:|:----------:|
-| Timestamp* | [0x01] + [DADOS] | [1 BYTE] + [3 BYTES] |
+| Timestamp | [0x01] + [DADO] | [1 BYTE] + [3 BYTES] |
 | Sensor | [4 bits para sensor / 4 bits para eixo] + [DADO] | [1 BYTE] + [2 BYTES (Em Complemento de 2)] |
 | Frequencencia Atingida | [0x03] | [1 BYTE] |
 
