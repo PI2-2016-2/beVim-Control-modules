@@ -45,7 +45,7 @@ Para identificação dos sensores ativos, foi acordado a utilização de um BYTE
 * 1 BYTE composto por 8 bits, sendo cada bit responsável por um sensor.
 * 0 Indica que o Sensor está desativado e 1 indica que o sensor está ativado.
 
-*Exemplo abaixo da análise de um BYTE para identificação dos sensores ativos:
+* Exemplo abaixo da análise de um BYTE para identificação dos sensores ativos:
 
 | 0 | 0 | 1 | 1 | 0 | 1 | 1 | 1 |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
