@@ -46,6 +46,7 @@ Para identificação dos sensores ativos, foi acordado a utilização de um BYTE
 * 0 Indica que o Sensor está desativado e 1 indica que o sensor está ativado.
 
 *Exemplo abaixo da análise de um BYTE para identificação dos sensores ativos:
+
 | 0 | 0 | 1 | 1 | 0 | 1 | 1 | 1 |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 | S8 | S7 | S6 | S5 | S4 | S3 | S2 | S1 |
