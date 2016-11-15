@@ -79,6 +79,7 @@ Na tabela abaixo temos um exemplo da ordem do OUTPUT dos dados que serão enviad
 | Sensor 6 - Eixo X | 17° |
 | Sensor 6 - Eixo Y | 18° |
 | Sensor 6 - Eixo Z | 19° |
+| Flag Frequencia Atingida | 20° |
 
 ##Escala dos dados
 
