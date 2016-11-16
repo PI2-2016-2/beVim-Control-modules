@@ -36,6 +36,20 @@ void setDirection( int port, int pin ,GpioDirection dir){
 			}	
 	
 			break;
+
+		case 3:
+			switch(dir){
+				case input:
+					P3DIR &= bit;
+					break;
+				case output:
+					P3DIR |= bit;
+					break;
+				default:
+					break;
+			}	
+	
+			break;
 		default:
 			break;
 	
