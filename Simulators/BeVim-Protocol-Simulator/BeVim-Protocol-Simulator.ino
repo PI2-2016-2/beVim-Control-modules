@@ -26,6 +26,15 @@ void setup() {
 #endif 
 }
 
+void send_sensors()
+{
+  Serial.println("S1,0,0,0,0");
+  Serial.println("S2,0,0,0,0");
+  Serial.println("S3,0,0,0,0");
+  Serial.println("S6,0,0,0,0");
+  Serial.println("S7,0,0,0,0");
+}
+
 void loop()
 {
 
@@ -73,13 +82,9 @@ void loop()
     
   }
 
-  if(f < -1.1 && f > -2.1){
-      
-    Serial.println("S1,0,0,0,0");
-    Serial.println("S2,0,0,0,0");
-    Serial.println("S3,0,0,0,0");
-    Serial.println("S6,0,0,0,0");
-    Serial.println("S7,0,0,0,0");
+  if(f < -1.1 && f > -2.1) {
+    send_sensors();
+    f = -1;
   }
 
   if((stopExperiment==0) && f > 0.0){
@@ -107,10 +112,10 @@ void loop()
   
     ts+= 250 * 1.0/f ;  
 
-    delay(1000);
+    delay(100);
     }
     
   
-  }
+}
 
 

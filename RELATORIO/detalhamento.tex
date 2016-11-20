@@ -1,0 +1,34 @@
+\subsection{Detalhamento de Solução}
+
+\subsubsection{Desenvolvimento de arquitetura para o sistema de sensoriamento}
+
+A arquitetura do projeto da mesa deve cumprir os seguintes pré-requisitos:
+
+\begin{enumerated}
+	\item Ser escalável, isto é, comportar um aumento de sensores disponíveis. Para isso, optou-se por sensores interfaceados por I2C, e um sistema baseado em multiplexadores e Registradores de deslocamento para o controle da leitura do sensor.
+	\item Garantir a correta frequencia de amostragem para os sensores disponibilizados. 
+	\item Possuir interface de comunicação externa com qualquer dispositivo que queira controlar parametros de vibração da mesa, como a frequencia.
+	\item Possuir a função de “módulo mestre”, controlando todos os demais, e sendo controlado via UART.
+\end{enumerated}
+
+\subsubsection{Desenvolvimento de arquitetura para um sistema de controle de motores}
+
+A arquitetura do projeto do módulo de controle de motores deve cumprir os seguintes pré-requisitos:
+
+\begin{enumerated}
+	\item Ser  controlável via I2C, recebendo e enviando comandos do módulo mestre.
+	\item Possuir capacidade de controle em malha fechada da frequencia da mesa.
+	\item Possuir capacidade de controle do motor.
+\end{enumerated}
+
+\subsection{Projeto e construção}
+
+Um módulo BSP é uma coletânia de códigos básicos de microcontrolador, que implementam um a um todas as suas funcionalidades. Dessa forma, funções mais alto nível são disponibilizadas para a aplicação, tornando-a mais genérica e permitindo que a mesma possa suportar mais de um microcontrolador ao mesmo tempo. \\
+Para o projeto em questão, as seguintes implementações específicas de MSP430 foram criadas. Todas são suportadas para dois microntoladores (MSP430F2274 e MSP430G25543), de forma que se reduz ao mínimo o tempo de desenvolvimento de código, sem perder a robustez e flexibilidade.
+
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[scale=0.6]{bsp.png}
+	\caption{Pacotes implementados para o BSP}
+	\label{bsp-scheme}
+\end{figure}
