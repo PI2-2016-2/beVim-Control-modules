@@ -39,41 +39,41 @@ void beVim_Accelerometer_Write_Register(unsigned char reg, unsigned char value){
 
 void beVim_Accelerometer_Config(){
 
-beVim_Accelerometer_Write_Register(MPU6050_RA_SMPLRT_DIV, 0x07);
+	beVim_Accelerometer_Write_Register(MPU6050_RA_SMPLRT_DIV, 0x07);
         beVim_Accelerometer_Write_Register(MPU6050_RA_CONFIG, 0x00);
-        beVim_Accelerometer_Write_Register( MPU6050_RA_GYRO_CONFIG, 0x08);
-        beVim_Accelerometer_Write_Register(MPU6050_RA_ACCEL_CONFIG, 0x00);
+        beVim_Accelerometer_Write_Register(MPU6050_RA_GYRO_CONFIG, 0x08);
+        beVim_Accelerometer_Write_Register(MPU6050_RA_ACCEL_CONFIG, 0x16); //Configura o sensor para amostragem de 8 g
         beVim_Accelerometer_Write_Register(MPU6050_RA_FF_THR, 0x00);
-        beVim_Accelerometer_Write_Register( MPU6050_RA_FF_DUR, 0x00);
+        beVim_Accelerometer_Write_Register(MPU6050_RA_FF_DUR, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_MOT_THR, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_MOT_DUR, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_ZRMOT_THR, 0x00);
-        beVim_Accelerometer_Write_Register( MPU6050_RA_ZRMOT_DUR, 0x00);
+        beVim_Accelerometer_Write_Register(MPU6050_RA_ZRMOT_DUR, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_FIFO_EN, 0x00);                                           
         beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_MST_CTRL, 0x00);                                           
-        beVim_Accelerometer_Write_Register( MPU6050_RA_I2C_SLV0_ADDR, 0x00);                                         
+        beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV0_ADDR, 0x00);                                         
         beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV0_REG, 0x00);                                           
-        beVim_Accelerometer_Write_Register(  MPU6050_RA_I2C_SLV0_CTRL, 0x00);                                        
-        beVim_Accelerometer_Write_Register(   MPU6050_RA_I2C_SLV1_ADDR, 0x00);                                        
+        beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV0_CTRL, 0x00);                                        
+        beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV1_ADDR, 0x00);                                        
         beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV1_REG, 0x00);
-        beVim_Accelerometer_Write_Register( MPU6050_RA_I2C_SLV1_CTRL, 0x00);
+        beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV1_CTRL, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV2_ADDR, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV2_REG, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV2_CTRL, 0x00);
-        beVim_Accelerometer_Write_Register( MPU6050_RA_I2C_SLV3_ADDR, 0x00);
+        beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV3_ADDR, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV3_REG, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV3_CTRL, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV4_ADDR, 0x00);
-        beVim_Accelerometer_Write_Register( MPU6050_RA_I2C_SLV4_REG, 0x00);
-        beVim_Accelerometer_Write_Register( MPU6050_RA_I2C_SLV4_DO, 0x00);
+        beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV4_REG, 0x00);
+        beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV4_DO, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV4_CTRL, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV4_DI, 0x00);                       
         beVim_Accelerometer_Write_Register(MPU6050_RA_INT_PIN_CFG, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_INT_PIN_CFG, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV0_DO, 0x00);
-        beVim_Accelerometer_Write_Register( MPU6050_RA_I2C_SLV1_DO, 0x00);
+        beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV1_DO, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV2_DO, 0x00);
-        beVim_Accelerometer_Write_Register( MPU6050_RA_I2C_SLV3_DO, 0x00);
+        beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_SLV3_DO, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_I2C_MST_DELAY_CTRL, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_SIGNAL_PATH_RESET, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_MOT_DETECT_CTRL, 0x00);
