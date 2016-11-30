@@ -1,5 +1,14 @@
 #include "../Includes/beVim-timerA.h"
 
+void beVim_TA_reset(){
+
+	//Resets the counter;
+	TACTL |= TACLR;
+	
+	//Stops the counter;
+	TACTL = MC_0;
+
+}
 
 void beVim_TA_configure(TAClockSources clockSource, char divider, TACountingMode countingMode){
 

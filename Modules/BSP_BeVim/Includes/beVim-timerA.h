@@ -35,6 +35,9 @@ typedef enum {
 	_ccr2			= 3	
 } TAInterruptTypes;
 
+//Stops and resets the timerA;
+void beVim_TA_reset();
+
 //Divider should only be 2,4,8,10
 void beVim_TA_configure(TAClockSources clockSource, char divider, TACountingMode countingMode);
 

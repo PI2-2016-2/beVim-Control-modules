@@ -13,8 +13,8 @@ int main(void)
  BCSCTL1= CALBC1_1MHZ;
  DCOCTL= CALDCO_1MHZ;
 
- P1DIR = BIT6 | BIT0 | BIT4;
- P1OUT &= ~(BIT6 | BIT0 | BIT4);
+ P1DIR = BIT6 | BIT0 | BIT4 | BIT5;
+ P1OUT &= ~(BIT6 | BIT0 | BIT4 |BIT5);
 
  P1DIR &= ~BIT3;
 
@@ -31,7 +31,7 @@ int main(void)
  TACTL = TASSEL_2 | MC_1;
 
  // set ouput to Port P1.6
- P1SEL |= BIT6;
+ P1SEL |= BIT5;
 
  // select timer compare mode 
  TACCTL1 = OUTMOD_7 | CCIE;
