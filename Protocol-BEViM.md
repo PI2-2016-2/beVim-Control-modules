@@ -32,7 +32,7 @@ Nesta seção irá formaliza o formato padrão de saída de dados bem como algun
 |:--------:|:--------:|:----------:|
 | Timestamp | [0x01] + [DADO] | [1 BYTE] + [3 BYTES] |
 | Sensor | [4 bits para sensor / 4 bits para eixo] + [DADO] | [1 BYTE] + [2 BYTES (Em Complemento de 2)] |
-| Frequencia Atingida | [0x03] | [1 BYTE] |
+| Frequencia Atingida | [0x03] + [DADO] | [1 BYTE] + [1 BYTE] |
 
 * Timestamp - Resolução 5 ms/bit
 * Sensor - Os 4 MSB do Byte definem qual o sensor que é em binário e os 4 LSB deinem qual é o eixo que o dado está sendo amostrado.
