@@ -9,7 +9,7 @@ DEVICE  = msp430f2274
 CC      = $(GCC_DIR)/msp430-elf-gcc
 GDB     = $(GCC_DIR)/msp430-elf-gdb
 
-CFLAGS = -I $(SUPPORT_FILE_DIRECTORY) -mmcu=$(DEVICE) -O0 -g3 -gdwarf-2 -ggdb
+CFLAGS = -I $(SUPPORT_FILE_DIRECTORY) -mmcu=$(DEVICE) -O0 -g3 -gdwarf-2 -ggdb -Wall 
 LFLAGS = -L $(SUPPORT_FILE_DIRECTORY)
 
 all: Compile_App

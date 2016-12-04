@@ -44,11 +44,17 @@ void beVim_TA_configure(TAClockSources clockSource, char divider, TACountingMode
 //Only works in upDown and up modeee
 void beVim_TA_CountUpTo(int LSB);
 
-void beVim_TA_OutputMode(OutputModeSet outputMode);
+void beVim_TA_OutputMode(char pin, OutputModeSet outputMode);
 
 void beVim_TA_Enable_CCR0_Interrupt();
-
 void beVim_TA_Disable_CCR0_Interrupt();
+
+void beVim_TA_Enable_CCR1_Interrupt();
+void beVim_TA_Disable_CCR1_Interrupt();
+
+void beVim_TA_Enable_CCR2_Interrupt();
+void beVim_TA_Disable_CCR2_Interrupt();
+
 
 /*Essa função funciona para ligar a interrupção por OVERFLOW do timer A 
 (Utilizada quando a forma de contagem é por meio do MODO CONTÍNUO. */
@@ -59,6 +65,10 @@ void beVim_TA_Enable_OVF_Interrupt();
 void beVim_TA_Disable_OVF_Interrupt();
 
 int beVim_TA_CurrentCount();
+
+void beVim_TA_CCR1_CountUpTo(int LSB);
+
+void beVim_TA_CCR2_CountUpTo(int LSB);
 
 void beVim_Register_Callback(void *func,TAInterruptTypes type);
 
