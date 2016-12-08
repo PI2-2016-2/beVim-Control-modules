@@ -13,7 +13,7 @@
 
 //Outputs definidos
 #define _TIMESTAMP_HEADER 		0x01
-#define _FREQUENCY_OK_HEADER 	0x03
+#define _FREQUENCY_OK_HEADER 	        0x03
 
 //Definiçoes para o TIMER (gera interrupção de 5 em 5 ms, habilitando a leitura do sensor)
 #define TA_CLOCK_SOURCE 		_SMCLK
@@ -21,14 +21,19 @@
 #define TA_COUNT_MODE			countUp
 #define TA_CCR0_LIMIT			625					//Limite Superior (Reset)  - 5 ms
 #define TA_CCR1_LIMIT			622					//Limite Inferior (Set)
-#define TA_PWM_STEP				2					//Passo para o PWM diminuir
+#define TA_PWM_STEP		        2					//Passo para o PWM diminuir
 
 //Definicoes para os valores de pico do acelerometro
-#define PEAK_MINIMUM_LEVEL		1.5	//valor acima do qual se considera um pico (em G)
-#define ACCEL_LSB_DIVIDER		16384	//Valor do LSB recebido do accelerometro.
+#define PEAK_LEVEL		        1.5	//valor acima do qual se considera um pico (em G)
+#define PEAK_LEVEL_TOLERANCE            0.1     //Valor de tolerancia ao valor m�ximo do pico (de 0 a 1)
+#define ACCEL_LSB_DIVIDER		4096	//Valor do LSB recebido do accelerometro.
+#define TIMER_OVFs_TO_1_S               200     //Quantidade de ciclos que devem ser feitos para contabilizar 1 segundo
+
+//Definicoes para o avanco ou recuo de frequencia
+#define CENTER_FREQ_TOLERANCE           1     //Faixa na qual a frequencia � considerada atingida pelo experimento.
 
 //Variaveis relacionadas ao protocolo
-int 		isEnabled 			= 0;
+char 		isEnabled 			= 0;
 char 		readNow 			= 0;
 char 		sendAvailableSensor 		= 0;
 char 		charRecebido 			= 0;
@@ -36,12 +41,16 @@ unsigned char 	timer 				= 0;
 unsigned char 	timer2 				= 0;
 unsigned char 	timer3 				= 0;
 unsigned char 	freqRequerida			= 0;
-char 		tempVar = 0;
+char 		tempVar                         = 0;
+
+//Variavel relacionada a contagem do tempo. 
+int             countOverflows                  = 0;            
 
 void mudaContador(){
 
 	readNow = 1;
 	timer++;
+        countOverflows++;
 	
 	toggleOutput(1,1);
 
@@ -56,6 +65,8 @@ void mudaContador(){
 	if(timer3 == 0xff){
 		timer3 = 0;
 	}
+        
+       
 
 }
 
@@ -81,7 +92,7 @@ void configuraClock(){
 
 }
 
-	void configuraUart(){
+void configuraUart(){
 
 	beVim_UART_begin(_9600);
 	IE2 |= UCA0RXIE;
@@ -106,15 +117,15 @@ void configuraI2C(){
 int main(){
 	
 	//Variaveis para receber a timestamp do detector de picos
-	unsigned char timestampPicoA[] 		= {0,0,0};
-	unsigned char timestampPicoB[] 		= {0,0,0};	
-	unsigned char frequenciaInstantanea = 0;
+	unsigned char frequenciaInstantanea     = 0;
 	int           aceleracaoAtual 		= 0;
 	unsigned char aceleracaoRaw[]   	= {0,0};
-	char 	      peakCycle			    = 0; 		//Essa variavel define se esta sendo analizado o primeiro ou o segundo pico.
-	int 		  PWMAtual              = TA_CCR1_LIMIT; 
-	float		accAtualFloat		= 0.0;
-	//Variaveis para guardar os valores de picos
+	int 	      PWMAtual                  = TA_CCR1_LIMIT; 
+	double        accAtualDouble		= 0.0;
+        int           contaZero                 = 0;
+        char          upZone                    = 1;          //Flag que indica se a medi��o de faixa de frequencia est� na zona superior ou inferio
+                                                              //da faixa limiar
+        int           contaZeros                =0;
 
 	WDTCTL = WDTPW + WDTHOLD;
 	
@@ -155,53 +166,40 @@ int main(){
 				aceleracaoRaw[0] = (unsigned char)beVim_Accelerometer_Read_Register(MPU6050_RA_ACCEL_XOUT_H);
 				aceleracaoRaw[1] = (unsigned char)beVim_Accelerometer_Read_Register(MPU6050_RA_ACCEL_XOUT_L);
 				
-					//Transformação para inteiro com sinal.
-				aceleracaoAtual = (((aceleracaoRaw[0] <<8 ) & 0xff00) | (aceleracaoRaw[1] & 0xff));
-				accAtualFloat = (float)(aceleracaoAtual)/(float)(ACCEL_LSB_DIVIDER);
+				//Transformacao para inteiro com sinal.
+				aceleracaoAtual = (aceleracaoRaw[0] <<8 ) | (aceleracaoRaw[1]);
+				accAtualDouble =  (double)aceleracaoAtual/ACCEL_LSB_DIVIDER;
 					
-					//se Cumprir o requisito de nivel de pico, então atualiza ts
-				if(accAtualFloat >= PEAK_MINIMUM_LEVEL){
-					if(peakCycle == 0){
-						timestampPicoA[0] = timer3;
-					        timestampPicoA[1] = timer2;
-					        timestampPicoA[2] = timer;
-						peakCycle++;
-					}
-					else {
-						timestampPicoB[0] = timer3;
-						timestampPicoB[1] = timer2; 
-						timestampPicoB[2] = timer;
-						peakCycle--;
-					}
-					
+				if((accAtualDouble > (PEAK_LEVEL * (1+PEAK_LEVEL_TOLERANCE))) && (upZone)){
+                                    contaZeros++;
+                                    upZone = 0;
 				}
-					//Se não for, zera a ts, e espera um novo ciclo. A idéia é avaliar só ts contiguas.	
-				else { 
-					timestampPicoA[0]=timestampPicoA[1]=timestampPicoA[2] = 0;
-					timestampPicoB[0]=timestampPicoB[1] = timestampPicoB[2] = 0;
-					peakCycle = 0;
+				else if((accAtualDouble < (PEAK_LEVEL * (1-PEAK_LEVEL_TOLERANCE))) && ~(upZone)){
+                                    contaZeros++;
+                                      upZone = 1;
 				}
-				
+                                
+                                 if(countOverflows == TIMER_OVFs_TO_1_S){
+                                      
+                                     frequenciaInstantanea = contaZeros/2;
+                                     contaZeros = 0;
+                                     countOverflows = 0;
+                                 }                                                     
+                                                          
 				//Descritivo do sensor
 				beVim_putc(0x11);
 				beVim_putc(aceleracaoRaw[0]);
-				beVim_putc(aceleracaoRaw[1]);
-				
-				//beVim_putc(beVim_Accelerometer_Read_Register(MPU6050_RA_ACCEL_XOUT_H));
-				//beVim_putc(beVim_Accelerometer_Read_Register(MPU6050_RA_ACCEL_XOUT_L));
-				
-
-				frequenciaInstantanea = beVim_calcula_Freq(timestampPicoA, timestampPicoB);				
+				beVim_putc(aceleracaoRaw[1]);			
 
 				//freq
 				beVim_putc(0x03);
 				beVim_putc((char)frequenciaInstantanea);
 
-				//Liga a interrupção Global.
+				//Liga a interrup��o Global.
 				__bis_SR_register(GIE);
 				
-				//Avalia se a frequencia está OK, ou avança
-				if(frequenciaInstantanea < freqRequerida){
+                                //Avaliacao de frequencia e potencial mudanca.
+				if(frequenciaInstantanea < (freqRequerida -CENTER_FREQ_TOLERANCE)){
 					PWMAtual = PWMAtual - TA_PWM_STEP;
 					
 					if(PWMAtual <= 0)
@@ -210,7 +208,7 @@ int main(){
 					beVim_TA_CCR1_CountUpTo(PWMAtual);
 
 				}
-				else if(frequenciaInstantanea > freqRequerida){
+				else if(frequenciaInstantanea > (freqRequerida + CENTER_FREQ_TOLERANCE)){
 					
 					PWMAtual = PWMAtual + TA_PWM_STEP;
 					
