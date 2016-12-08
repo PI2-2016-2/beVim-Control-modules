@@ -230,8 +230,15 @@ int main(){
 	}
 
 }
-
-void __interrupt(USCIAB0RX_VECTOR) RX_ISR(void){
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector = USCIAB0RX_VECTOR
+__interrupt void RX_ISR(void)
+#elif defined(__GNUC__)
+void __interrupt(USCIAB0RX_VECTOR) RX_ISR(void)
+#else
+#error Compiler not supported!
+#endif
+{
 
 	 charRecebido = beVim_getc();		
 
