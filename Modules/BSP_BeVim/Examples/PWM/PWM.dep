@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<project>
+  <fileVersion>2</fileVersion>
+  <fileChecksum>3319181460</fileChecksum>
+  <configuration>
+    <name>Debug</name>
+    <outputs>
+      <file>$TOOLKIT_DIR$\lib\dlib\dl430fn.r43</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-uart.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-frequency.r43</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\ysizet.h</file>
+      <file>$TOOLKIT_DIR$\inc\in430.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-frequency.pbi</file>
+      <file>$PROJ_DIR$\Debug\Exe\PWM.d43</file>
+      <file>$PROJ_DIR$\..\..\Includes\beVim-uart.h</file>
+      <file>$PROJ_DIR$\..\..\Sources\beVim-mpu6000.c</file>
+      <file>$PROJ_DIR$\..\..\Sources\beVim-uart.c</file>
+      <file>$PROJ_DIR$\..\..\Includes\beVim-CD4015.h</file>
+      <file>$PROJ_DIR$\..\..\Includes\beVim-i2c.h</file>
+      <file>$PROJ_DIR$\..\..\Sources\beVim-clock-manager.c</file>
+      <file>$PROJ_DIR$\..\..\Includes\beVim-timerA.h</file>
+      <file>$PROJ_DIR$\..\..\Includes\beVim-frequency.h</file>
+      <file>$PROJ_DIR$\..\..\Includes\beVim-clock-manager.h</file>
+      <file>$PROJ_DIR$\..\..\Includes\beVim-gpios.h</file>
+      <file>$PROJ_DIR$\..\..\Sources\beVim-CD4015.c</file>
+      <file>$PROJ_DIR$\..\..\Includes\beVim-mpu6000.h</file>
+      <file>$PROJ_DIR$\..\..\Sources\beVim-frequency.c</file>
+      <file>$PROJ_DIR$\..\..\Sources\beVim-gpios.c</file>
+      <file>$PROJ_DIR$\..\..\Sources\beVim-i2c.c</file>
+      <file>$PROJ_DIR$\..\..\Sources\beVim-timerA.c</file>
+      <file>$TOOLKIT_DIR$\lib\dlib\dl430fn.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-mpu6000.r43</file>
+      <file>$PROJ_DIR$\pwm1.c</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-clock-manager.r43</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\xencoding_limits.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Defaults.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\stdlib.h</file>
+      <file>$TOOLKIT_DIR$\config\lnk430F2274.xcl</file>
+      <file>$TOOLKIT_DIR$\inc\msp430f2274.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\ycheck.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-mpu6000.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\msp430.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\PWM.pbd</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-i2c.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-CD4015.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-timerA.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-i2c.r43</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\yvals.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-uart.r43</file>
+      <file>$PROJ_DIR$\Debug\Obj\pwm1.r43</file>
+      <file>$PROJ_DIR$\Debug\Obj\pwm1.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Product.h</file>
+      <file>$TOOLKIT_DIR$\inc\dlib\c\DLib_Threads.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-clock-manager.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-CD4015.r43</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-gpios.r43</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-gpios.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\beVim-timerA.r43</file>
+      <file>$TOOLKIT_DIR$\inc\intrinsics.h</file>
+    </outputs>
+    <file>
+      <name>[ROOT_NODE]</name>
+      <outputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 6</file>
+        </tool>
+      </outputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Exe\PWM.d43</name>
+      <inputs>
+        <tool>
+          <name>XLINK</name>
+          <file> 30 47 26 2 48 39 24 50 41 42 0</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Sources\beVim-mpu6000.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 33</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 24</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 18 11 34 31 4 51</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 18 11 34 31 4 51</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Sources\beVim-uart.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 1</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 41</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 7 34 31 4 51 29 32 40 28 44 27 45 3</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 7 34 31 4 51 29 32 40 28 23 44 27 45 3</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Sources\beVim-clock-manager.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 46</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 26</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 15 34 31 4 51</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 15 34 31 4 51</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Sources\beVim-CD4015.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 37</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 47</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 10 34 31 4 51</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 10 34 31 4 51</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Sources\beVim-frequency.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 5</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 2</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 14</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 14</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Sources\beVim-gpios.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 49</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 48</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 16 34 31 4 51</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 16 34 31 4 51</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Sources\beVim-i2c.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 36</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 39</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 11 34 31 4 51</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 11 34 31 4 51</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\..\..\Sources\beVim-timerA.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 38</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 50</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 13 34 31 4 51</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 13 34 31 4 51</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\pwm1.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 43</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 42</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 34 31 4 51 16 13 15</file>
+        </tool>
+        <tool>
+          <name>ICC430</name>
+          <file> 34 31 4 51 16 13 15</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Debug\Obj\PWM.pbd</name>
+      <inputs>
+        <tool>
+          <name>BILINK</name>
+          <file> 37 46 5 49 36 33 38 1 43</file>
+        </tool>
+      </inputs>
+    </file>
+  </configuration>
+  <configuration>
+    <name>Release</name>
+    <outputs/>
+    <forcedrebuild>
+      <name>[MULTI_TOOL]</name>
+      <tool>XLINK</tool>
+    </forcedrebuild>
+  </configuration>
+</project>
+
+

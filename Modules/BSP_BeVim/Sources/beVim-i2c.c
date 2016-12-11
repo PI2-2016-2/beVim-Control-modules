@@ -1,5 +1,4 @@
-#include "../Includes/beVim-i2c.h"
-
+ #include "../Includes/beVim-i2c.h"
 
 void beVim_i2c_configure(unsigned char slave_address, unsigned char prescale){
   P3SEL |= SDA_PIN + SCL_PIN;                 // Assign I2C pins to USCI_B0
@@ -10,7 +9,7 @@ void beVim_i2c_configure(unsigned char slave_address, unsigned char prescale){
   UCB0BR1 = 0;
   UCB0I2CSA = slave_address;                  // Set slave address
   UCB0CTL1 &= ~UCSWRST;                       // Clear SW reset, resume operation
-  UCB0I2CIE = UCNACKIE;
+  //UCB0I2CIE = UCNACKIE;
   
   #ifdef __INTERRUPT_MODE
   IE2 = UCB0TXIE + UCB0RXIE;                            // Enable TX ready interrupt
@@ -60,14 +59,14 @@ int beVim_i2c_write_bytes(unsigned char qty, unsigned char *c){
 	beVim_i2c_transmit_condition(I2C_TRANSMITTER, I2C_START);
         
         
-	//Transmitimos os qty bytes atÃƒÂ© que acabe todo o buffer.
+	//Transmitimos os qty bytes ateh que acabe todo o buffer.
 	while(bytesToSend){
 		
           
 		UCB0TXBUF = *c;
                 
                 //Aguarda o proximo envio, ou flag de erro.		
-		while(!(IFG2 & UCB0TXIFG) && !(UCB0STAT & UCNACKIFG)); 
+		while(!(IFG2 & UCB0TXIFG) || !(UCB0STAT & UCNACKIFG)); 
                 
                 if((UCB0STAT & UCNACKIFG)){
                     return 0;
@@ -83,30 +82,39 @@ int beVim_i2c_write_bytes(unsigned char qty, unsigned char *c){
 int beVim_i2c_read_bytes(unsigned char qty, unsigned char *c){
 	
 	unsigned char bytesToRead = qty;
-
+        unsigned char trials = 0;
 	//START + READ
 	beVim_i2c_transmit_condition(I2C_RECEIVER, I2C_START);
 	
 	//Aguardamos o recebimento do primeiro ACK.
         //Ao receber, UCTXSTT vai para 0;
-	while((UCB0CTL1 & UCTXSTT));
+	while((UCB0CTL1 & UCTXSTT) &&  trials < 100){
+          trials++;
+        };
         
+        if(trials > 100)
+          return 0;
         
         //Se o byte recebido for NACK , então aborta.
         if(UCB0STAT & UCNACKIFG)
           return 0;
 
        
-        
+                trials = 0;        
 	while(bytesToRead){ 	
           
           //No último byte a ser lido, iniciar a condição de STOP. 
           if(bytesToRead == 1)
              beVim_i2c_transmit_condition(I2C_RECEIVER, I2C_STOP);
           
+                    trials = 0;
 		//Aguarda receber mensagem completa.
-          while(!(IFG2 & UCB0RXIFG) && !(UCB0STAT & UCNACKIFG));
-
+                    while(!(IFG2 & UCB0RXIFG) && !(UCB0STAT & UCNACKIFG) && (trials < 100)){
+                    trials++;
+                    }
+                    
+                    if(trials > 100)
+                      return 0;
                 if(UCB0STAT & UCNACKIFG)
                   return 0;		
 		

@@ -38,7 +38,7 @@ void beVim_Accelerometer_Write_Register(unsigned char reg, unsigned char value){
 }
 
 void beVim_Accelerometer_Config(){
-
+        beVim_Accelerometer_Write_Register(MPU6050_RA_PWR_MGMT_1, 0x02);
 	beVim_Accelerometer_Write_Register(MPU6050_RA_SMPLRT_DIV, 0x07);
         beVim_Accelerometer_Write_Register(MPU6050_RA_CONFIG, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_GYRO_CONFIG, 0x08);
@@ -78,7 +78,7 @@ void beVim_Accelerometer_Config(){
         beVim_Accelerometer_Write_Register(MPU6050_RA_SIGNAL_PATH_RESET, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_MOT_DETECT_CTRL, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_USER_CTRL, 0x00);
-        beVim_Accelerometer_Write_Register(MPU6050_RA_PWR_MGMT_1, 0x02);
+    
         beVim_Accelerometer_Write_Register(MPU6050_RA_PWR_MGMT_2, 0x00);
         beVim_Accelerometer_Write_Register(MPU6050_RA_FIFO_R_W, 0x00);
 }

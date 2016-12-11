@@ -5,7 +5,7 @@
  * resolução.
  * */
 
-//Construção: MSB | ... | LSB
+//Construcao: MSB | ... | LSB
 //ts_pico1[3] = {x,y,z}
 //ts_pico2[3] = {a,b,c}
 

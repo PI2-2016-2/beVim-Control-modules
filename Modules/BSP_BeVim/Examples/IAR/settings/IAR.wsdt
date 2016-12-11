@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<Workspace>
+  <ConfigDictionary>
+    
+    
+    
+  <CurrentConfigs><Project>sreg/Debug</Project><Project>beVimApp/Debug</Project><Project>i2c/Debug</Project><Project>PWM/Debug</Project><Project>intuart/Debug</Project><Project>msp430/Debug</Project></CurrentConfigs><CurrentProj>beVimApp</CurrentProj><OverviewSelected>0</OverviewSelected></ConfigDictionary>
+  <Desktop>
+    <Static>
+      <Workspace>
+        <ColumnWidths>
+          
+          
+          
+          
+        <Column0>204</Column0><Column1>27</Column1><Column2>27</Column2><Column3>0</Column3></ColumnWidths>
+      </Workspace>
+      <Build>
+        
+        
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1395</ColumnWidth1><ColumnWidth2>372</ColumnWidth2><ColumnWidth3>93</ColumnWidth3></Build>
+      <TerminalIO/>
+      <Debug-Log>
+        
+        
+      <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1861</ColumnWidth1></Debug-Log>
+    <Disassembly><ShowCodeCoverage>0</ShowCodeCoverage><ShowInstrProfiling>0</ShowInstrProfiling><col-names><item>Disassembly</item><item>_I0</item></col-names><col-widths><item>500</item><item>20</item></col-widths><DisasmHistory/></Disassembly></Static>
+    <Windows>
+      
+      
+    <Wnd1>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-14448-32745</Identity>
+            <TabName>Workspace</TabName>
+            <Factory>Workspace</Factory>
+            <Session>
+              
+            <NodeDict><ExpandedNode>PWM</ExpandedNode><ExpandedNode>beVimApp</ExpandedNode><ExpandedNode>i2c</ExpandedNode><ExpandedNode>intuart</ExpandedNode><ExpandedNode>msp430</ExpandedNode><ExpandedNode>sreg</ExpandedNode><ExpandedNode>sreg/Sources</ExpandedNode></NodeDict></Session>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd1><Wnd3>
+        <Tabs>
+          <Tab>
+            <Identity>TabID-30905-1306</Identity>
+            <TabName>Build</TabName>
+            <Factory>Build</Factory>
+            <Session/>
+          </Tab>
+          <Tab>
+            <Identity>TabID-30992-18908</Identity>
+            <TabName>Debug Log</TabName>
+            <Factory>Debug-Log</Factory>
+            <Session/>
+          </Tab>
+        </Tabs>
+        
+      <SelectedTab>0</SelectedTab></Wnd3></Windows>
+    <Editor>
+      
+      
+      
+      
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\SReg\main.c</Filename><XPos>0</XPos><YPos>16</YPos><SelStart>405</SelStart><SelEnd>405</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Sources\beVim-gpios.c</Filename><XPos>0</XPos><YPos>50</YPos><SelStart>799</SelStart><SelEnd>799</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Sources\beVim-timerA.c</Filename><XPos>0</XPos><YPos>5</YPos><SelStart>432</SelStart><SelEnd>432</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\PWM\pwm1.c</Filename><XPos>0</XPos><YPos>17</YPos><SelStart>330</SelStart><SelEnd>330</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\i2c\i2c.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>20</SelStart><SelEnd>67</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Uartinterrupt\uartint.c</Filename><XPos>0</XPos><YPos>83</YPos><SelStart>4433</SelStart><SelEnd>4433</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\Bevim_App\beVimApp.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>106</SelStart><SelEnd>106</SelEnd></Tab><ActiveTab>6</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Sources\beVim-mpu6000.c</Filename><XPos>0</XPos><YPos>57</YPos><SelStart>4453</SelStart><SelEnd>4453</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Includes\beVim-mpu6000.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>287</SelStart><SelEnd>287</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\..\Sources\beVim-i2c.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>639</SelStart><SelEnd>639</SelEnd></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\..\SENSOR\main.cpp</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>85</SelStart><SelEnd>85</SelEnd></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Positions>
+      
+      
+      
+      
+      
+    <Top><Row0><Sizes><Toolbar-037a3d50><key>iaridepm.enu1</key></Toolbar-037a3d50></Sizes></Row0><Row1><Sizes/></Row1><Row2><Sizes/></Row2><Row3><Sizes/></Row3><Row4><Sizes/></Row4><Row5><Sizes/></Row5><Row6><Sizes/></Row6><Row7><Sizes/></Row7><Row8><Sizes/></Row8><Row9><Sizes><Toolbar-18262980><key>debuggergui.enu1</key></Toolbar-18262980></Sizes></Row9><Row10><Sizes><Toolbar-18262ca0><key>430fet1</key></Toolbar-18262ca0></Sizes></Row10></Top><Left><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>403</Bottom><Right>278</Right><x>-2</x><y>-2</y><xscreen>16</xscreen><yscreen>241</yscreen><sizeHorzCX>11713</sizeHorzCX><sizeHorzCY>351825</sizeHorzCY><sizeVertCX>204978</sizeVertCX><sizeVertCY>591241</sizeVertCY></Rect></Wnd1></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>237</Bottom><Right>1368</Right><x>-2</x><y>-2</y><xscreen>1370</xscreen><yscreen>239</yscreen><sizeHorzCX>1002928</sizeHorzCX><sizeHorzCY>348905</sizeHorzCY><sizeVertCX>11713</sizeVertCX><sizeVertCY>351825</sizeVertCY></Rect></Wnd3></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+  </Desktop>
+</Workspace>
+
+

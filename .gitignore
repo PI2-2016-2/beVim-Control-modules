@@ -1,3 +1,8 @@
 *.r43
 *.d43
 *.pbi
+Modules/BSP_BeVim/Examples/Bevim_App/beVimApp.dep
+*.ewd
+*.pbd
+Modules/BSP_BeVim/Examples/Bevim_App/EW4869.tmp
+*.tmp

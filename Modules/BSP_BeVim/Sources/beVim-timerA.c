@@ -1,5 +1,7 @@
 #include "../Includes/beVim-timerA.h"
 
+void (*interrupt_Sequence[4])();
+
 void beVim_TA_reset(){
 
 	//Resets the counter;
@@ -370,7 +372,7 @@ void beVim_TA_Disable_CCR2_Interrupt(){
 }
 
 
-void beVim_Register_Callback(void *func,TAInterruptTypes type){
+void beVim_Register_Callback(void (*func)(),TAInterruptTypes type){
 
 		switch(type){
 			case _ccr0:
@@ -404,13 +406,30 @@ void beVim_TA_CCR2_CountUpTo(int LSB){
 	  TA0CCR2 = LSB;
 
 }
-void __interrupt(TIMERA0_VECTOR) Timer_A_ISR0(void){
+
+
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector = TIMERA0_VECTOR
+__interrupt void TA0_ISR(void)
+#elif defined(__GNUC__)
+void __interrupt(TIMERA0_VECTOR) ta0isr(void)
+#else
+#error Compiler not supported!
+#endif
+{
 
 	interrupt_Sequence[0]();    // CCR0 or other interrupt
 
 }
 
-void __interrupt(TIMERA1_VECTOR) Timer_A_ISR1 (void)
+#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+#pragma vector = TIMERA1_VECTOR
+__interrupt void TA1_ISR(void)
+#elif defined(__GNUC__)
+void __interrupt(TIMERA1_VECTOR) ta1isr(void)
+#else
+#error Compiler not supported!
+#endif
 {
   switch( TA0IV )
   {

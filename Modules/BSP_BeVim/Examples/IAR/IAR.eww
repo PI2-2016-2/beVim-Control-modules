@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<workspace>
+  <project>
+    <path>$WS_DIR$\..\Bevim_App\beVimApp.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$\..\i2c\i2c.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$\..\Uartinterrupt\intuart.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$\..\SENSOR\msp430.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$\..\PWM\PWM.ewp</path>
+  </project>
+  <project>
+    <path>$WS_DIR$\..\SReg\sreg.ewp</path>
+  </project>
+  <batchBuild/>
+</workspace>
+
+

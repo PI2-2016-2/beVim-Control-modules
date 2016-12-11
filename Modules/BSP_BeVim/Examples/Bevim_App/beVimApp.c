@@ -30,7 +30,10 @@
 #define TIMER_OVFs_TO_1_S               200     //Quantidade de ciclos que devem ser feitos para contabilizar 1 segundo
 
 //Definicoes para o avanco ou recuo de frequencia
-#define CENTER_FREQ_TOLERANCE           1     //Faixa na qual a frequencia é considerada atingida pelo experimento.
+#define CENTER_FREQ_TOLERANCE           10     //Faixa na qual a frequencia é considerada atingida pelo experimento.
+
+//DEFINICOES PARA A FREQUENCIA INICIAL
+#define IDLE_FREQUENCY                  1
 
 //Variaveis relacionadas ao protocolo
 char 		isEnabled 			= 0;
@@ -40,7 +43,7 @@ char 		charRecebido 			= 0;
 unsigned char 	timer 				= 0;
 unsigned char 	timer2 				= 0;
 unsigned char 	timer3 				= 0;
-unsigned char 	freqRequerida			= 0;
+unsigned char 	freqRequerida			= IDLE_FREQUENCY;
 char 		tempVar                         = 0;
 
 //Variavel relacionada a contagem do tempo. 
@@ -132,9 +135,10 @@ int main(){
 	configuraLed();
 	configuraClock();
 	configuraUart();
-	configuraI2C();
-	__bis_SR_register(GIE);
 	
+        configuraI2C();
+        
+	__bis_SR_register(GIE);
 	
 	while(1){
 			
@@ -153,20 +157,13 @@ int main(){
 				
 				//Apaga a Flag
 				readNow--;
-
-				//Pisca o LED
-
-				//printa a timestamp
-				beVim_putc(0x01);
-				beVim_putc(timer3);
-				beVim_putc(timer2);
-				beVim_putc(timer);
 				
 				//Leitura de sensor.
 				aceleracaoRaw[0] = (unsigned char)beVim_Accelerometer_Read_Register(MPU6050_RA_ACCEL_XOUT_H);
 				aceleracaoRaw[1] = (unsigned char)beVim_Accelerometer_Read_Register(MPU6050_RA_ACCEL_XOUT_L);
+
 				
-				//Transformacao para inteiro com sinal.
+                                //Transformacao para inteiro com sinal.
 				aceleracaoAtual = (aceleracaoRaw[0] <<8 ) | (aceleracaoRaw[1]);
 				accAtualDouble =  (double)aceleracaoAtual/ACCEL_LSB_DIVIDER;
 					
@@ -185,19 +182,7 @@ int main(){
                                      contaZeros = 0;
                                      countOverflows = 0;
                                  }                                                     
-                                                          
-				//Descritivo do sensor
-				beVim_putc(0x11);
-				beVim_putc(aceleracaoRaw[0]);
-				beVim_putc(aceleracaoRaw[1]);			
-
-				//freq
-				beVim_putc(0x03);
-				beVim_putc((char)frequenciaInstantanea);
-
-				//Liga a interrupção Global.
-				__bis_SR_register(GIE);
-				
+                          
                                 //Avaliacao de frequencia e potencial mudanca.
 				if(frequenciaInstantanea < (freqRequerida -CENTER_FREQ_TOLERANCE)){
 					PWMAtual = PWMAtual - TA_PWM_STEP;
@@ -217,6 +202,26 @@ int main(){
 
 					beVim_TA_CCR1_CountUpTo(PWMAtual);					
 				}
+                                
+                          //printa a timestamp
+				///beVim_putc(0x01);
+				///beVim_putc(timer3);
+				///beVim_putc(timer2);
+				///beVim_putc(timer);
+
+                                
+				//Descritivo do sensor
+				///beVim_putc(0x11);
+				beVim_putc(aceleracaoRaw[0]);
+				beVim_putc(aceleracaoRaw[1]);			
+
+				//freq
+				///beVim_putc(0x03);
+				///beVim_putc((char)frequenciaInstantanea);
+      
+				//Liga a interrupção Global.
+				__bis_SR_register(GIE);
+				
 
 				
 			}		
@@ -238,34 +243,48 @@ void __interrupt(USCIAB0RX_VECTOR) RX_ISR(void)
 #endif
 {
 
-	 charRecebido = beVim_getc();		
+  
+        charRecebido =  UCA0RXBUF;		
+        
+          if(charRecebido == _START_STOP_FLAG && tempVar == 0 ){
+                tempVar = 1 ; //Habilita passagem para o estagio2 - Receber frequencia
+ 		readNow = 0;
+                configuraTimer(); 
+         	isEnabled = 1;
+	        setOutput(1,1,low);
+		setOutput(1,0,low);
 
-	if(charRecebido == _START_STOP_FLAG){
-	 	if(isEnabled == 1){
-	 		tempVar = 0 ;
-	 		isEnabled = 0;
-	 		readNow = 0;
-			setOutput(1,1,low);
-			setOutput(1,0,high);
-			beVim_TA_reset();
-			beVim_TA_CCR1_CountUpTo(TA_CCR1_LIMIT);
-	 	} 
-	 	else{
-	 		tempVar =1;
-	 		
-	 	}
-	 }
-	 	
-	else if(charRecebido == _ACTIVE_SENSOR_FLAG)
+         }
+        else if(charRecebido == _START_STOP_FLAG && tempVar == 1){
+                // Se eu recebo novamente a _START_STOP_FLAG, então para o exp.
+        	isEnabled = 0;
+                tempVar = 0;
+          	setOutput(1,1,low);
+		setOutput(1,0,high);
+
+                // Reseta a mesa                
+                beVim_TA_reset();
+		beVim_TA_CCR1_CountUpTo(TA_CCR1_LIMIT);
+        }
+        
+        else if(tempVar == 1){
+       	 // Estagio2 - Recebimento de frequencia de destino.
+          freqRequerida = (unsigned char) charRecebido;
+          setOutput(1,0,low);setOutput(1,1,high);		
+	}        
+        else if(charRecebido == _ACTIVE_SENSOR_FLAG && tempVar == 0 )
 	 	sendAvailableSensor = 1;
-	
-	else if(tempVar == 1){
-
-		isEnabled = 1;
+               
+        else if(charRecebido == _START_STOP_FLAG && tempVar == 1 ){
+                
+                isEnabled = 1;
 		freqRequerida = (unsigned char) charRecebido;
-			setOutput(1,0,low);
-			setOutput(1,1,high);
-       			configuraTimer(); 
-	}
-	 	
+		setOutput(1,0,low);
+		setOutput(1,1,high);
+
+                tempVar = 0;
+        
+        }	
+
+        
 }

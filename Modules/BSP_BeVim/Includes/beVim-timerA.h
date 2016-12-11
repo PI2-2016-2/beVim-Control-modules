@@ -1,6 +1,8 @@
 #include "msp430.h"	
 
-void (*interrupt_Sequence[4])();
+#ifndef _BEVIM_TA
+#define _BEVIM_TA
+
 
 typedef enum {
 	stop 			= 0,
@@ -70,6 +72,7 @@ void beVim_TA_CCR1_CountUpTo(int LSB);
 
 void beVim_TA_CCR2_CountUpTo(int LSB);
 
-void beVim_Register_Callback(void *func,TAInterruptTypes type);
+void beVim_Register_Callback(void (*func)(),TAInterruptTypes type);
 
 
+#endif

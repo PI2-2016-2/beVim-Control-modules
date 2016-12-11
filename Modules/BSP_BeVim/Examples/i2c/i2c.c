@@ -1,4 +1,4 @@
-#include "msp430.h"
+#include <msp430.h>
 #include "../../Includes/beVim-clock-manager.h"
 #include "../../Includes/beVim-gpios.h"
 #include "../../Includes/beVim-i2c.h"
@@ -6,16 +6,30 @@
 #include "../../Includes/beVim-uart.h"
 #include <stdio.h>
 
+
+/*ESCOLHA QUAL A OPCAO DE PRINT QUE DESEJA*/
+//#define PRINTA_EM_Gs
+#define PRINTA_EM_ESCALA
+/******************************************/
 #define PRESCALER 0x10
 
-  int main(void){
+//ATENCAO: ESSE VALOR EH USADO NUMA DIVISAO DOUBLE> PRECISA TER O PONTO DEPOIS
+#define ACCEL_LSB_DIVIDER 4096.00//Valor do LSB recebido do accelerometro.
 
+  int main(void){
+  ///////////////////
+    int           aceleracaoAtual 		= 0;
+    double	  accAtualdouble		= 0.0;
+    unsigned char aceleracaoRaw[]   	        = {0,0};
+    ///////////////
 	int i = 0;
         int ACC_X = 0;
         
         unsigned char MyAddress;
         unsigned char accData[2] = {0,0};
-        char *ACCX_STRING;
+        char accConfig = 30;
+        char PRINT_STRING[5];
+        
 
 	WDTCTL = WDTHOLD+WDTPW;
 
@@ -24,7 +38,6 @@
 	setOutput(1,0,high);
 	setDirection(1,1,output);
 	setOutput(1,1,high);
-
 
 	P3DIR |= 0x0F;
 
@@ -37,7 +50,6 @@
 	beVim_Clock_Config(DCOCLK, _1MHZ);
 	beVim_Mclk_Source(DCOCLK, 1);
 	beVim_SMclk_Source(DCOCLK,1);
-	
 	
 	//__bis_SR_register(GIE); // Enable_int
 
@@ -59,18 +71,35 @@
             setOutput(1,1,high);
           else
             setOutput(1,1,low);
-          
-          accData[0] = beVim_Accelerometer_Read_Register(  MPU6050_RA_ACCEL_XOUT_L);
-          accData[1] = beVim_Accelerometer_Read_Register(  MPU6050_RA_ACCEL_XOUT_H);
-
-          ACC_X = accData[0] + (accData[1]<<8);
-          
-          sprintf(ACCX_STRING,"%d", ACC_X);
-
-          beVim_println(ACCX_STRING);
-          
+           
+          //beVim_Accelerometer_Write_Register(MPU6050_RA_ACCEL_CONFIG, 0x16);
+           for(i = 0; i< 100; i++);
+         accConfig = beVim_Accelerometer_Read_Register(MPU6050_RA_ACCEL_CONFIG);
          
-        //or(i =0; i< 0x60; i++);
+  
+         //beVim_putc(accConfig);
+          //accData[0] = beVim_Accelerometer_Read_Register(  MPU6050_RA_ACCEL_XOUT_L);
+          //accData[1] = beVim_Accelerometer_Read_Register(  MPU6050_RA_ACCEL_XOUT_H);
+          
+          //Leitura de sensor.
+	  aceleracaoRaw[0] = (unsigned char)beVim_Accelerometer_Read_Register(MPU6050_RA_ACCEL_XOUT_H);
+	  aceleracaoRaw[1] = (unsigned char)beVim_Accelerometer_Read_Register(MPU6050_RA_ACCEL_XOUT_L);
+          
+          aceleracaoAtual = (aceleracaoRaw[0] <<8 ) | (aceleracaoRaw[1]);
+
+          accAtualdouble =  (float)aceleracaoAtual/ACCEL_LSB_DIVIDER;
+          
+          #ifdef PRINTA_EM_Gs
+          sprintf(PRINT_STRING,"%.2f G",accAtualdouble);
+          #endif
+          
+          #ifdef PRINTA_EM_ESCALA
+          sprintf(PRINT_STRING,"%d",aceleracaoAtual);
+          #endif
+          
+          beVim_println(PRINT_STRING);
+          
+ 
         }
 }
 
